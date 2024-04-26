@@ -15,6 +15,27 @@ public class Cart {
 		}
 	}
 	
+	public void addDigitalVideoDisc(DigitalVideoDisc[] dvdList) {
+		if (qtyOrdered + dvdList.length > 20) {
+			System.out.println("The cart is almost full");
+		} else {
+			for (DigitalVideoDisc disc : dvdList) {
+				itemsOrdered[qtyOrdered] = disc;
+				qtyOrdered += 1;
+			}
+			System.out.println("The disc list has been added");
+		}
+	}
+	
+	public void addDigitalVideoDisc(DigitalVideoDisc disc1, DigitalVideoDisc disc2) {
+		if (qtyOrdered + 2 > 20) {
+			System.out.println("The cart is almost full");
+		} else {
+			addDigitalVideoDisc(disc1);
+			addDigitalVideoDisc(disc2);
+		}
+	}
+	
 	public void removeDigitalVideoDisc(DigitalVideoDisc disc) {
 		for (int i = 0; i < qtyOrdered; i++) {
 			if (disc.equals(itemsOrdered[i])) {
