@@ -1,5 +1,3 @@
-package lab02;
-
 public class Cart {
 	public static final int MAX_NUMBERS_ORDERED = 20;
 	private DigitalVideoDisc itemsOrdered[] = new DigitalVideoDisc[MAX_NUMBERS_ORDERED];
@@ -26,7 +24,7 @@ public class Cart {
 			System.out.println("The disc list has been added");
 		}
 	}
-	
+
 	public void addDigitalVideoDisc(DigitalVideoDisc disc1, DigitalVideoDisc disc2) {
 		if (qtyOrdered + 2 > 20) {
 			System.out.println("The cart is almost full");
@@ -35,7 +33,7 @@ public class Cart {
 			addDigitalVideoDisc(disc2);
 		}
 	}
-	
+
 	public void removeDigitalVideoDisc(DigitalVideoDisc disc) {
 		for (int i = 0; i < qtyOrdered; i++) {
 			if (disc.equals(itemsOrdered[i])) {
@@ -50,6 +48,30 @@ public class Cart {
 		}
 		System.out.println("The disc was not found");
 	}
+
+	public void searchByTitle(String title) {
+		System.out.println("Searching by title " + '"'+ title + '"' + ": ");
+		for (int i = 0; i < qtyOrdered; i++) {
+			if (itemsOrdered[i].isMatch(title)) {
+				System.out.println(itemsOrdered[i].toString() + "\n");
+				return;
+			}
+		}
+		
+		System.out.println("No match found\n");
+	}
+
+	public void searchById(int id) {
+		System.out.println("Searching by id " + '"'+ id + '"' + ": ");
+		for (int i = 0; i < qtyOrdered; i++) {
+			if (itemsOrdered[i].isMatch(id)) {
+				System.out.println(itemsOrdered[i].toString() + "\n");
+				return;
+			}
+		}
+		
+		System.out.println("No match found\n");
+	}
 	
 	public float totalCost() {
 		float cost = 0.0f;
@@ -59,4 +81,14 @@ public class Cart {
 		
 		return cost;
 	}
+
+	public void printCart() {
+		System.out.println("***********************CART***********************\nOrdered Items:");
+		for (int i = 0; i < qtyOrdered; i++) {
+			System.out.println(itemsOrdered[i].toString());
+		}
+		System.out.println("Total cost: " + totalCost());
+		System.out.println("***************************************************");
+	}
 }
+

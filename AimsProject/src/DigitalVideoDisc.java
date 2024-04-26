@@ -1,5 +1,3 @@
-package lab02;
-
 public class DigitalVideoDisc {
 	private String title;
 	private String category;
@@ -50,6 +48,28 @@ public class DigitalVideoDisc {
 	public float getCost() {
 		return cost;
 	}
+
+	public int getId() {
+		return id;
+	}
+
+	public boolean isMatch(String title) {
+		if (this.title == title) {
+			return true;
+		}
+		return false;
+	}
+
+	public boolean isMatch(int id) {
+		if (this.id == id) {
+			return true;
+		}
+		return false;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
 	
 	public boolean equals(DigitalVideoDisc disc) {
 		if (this.title != null && !this.title.equals(disc.title)) {
@@ -74,4 +94,10 @@ public class DigitalVideoDisc {
 		
 		return true;
 	}
+
+	public String toString() {
+		String info = String.format("%d. DVD - %s - %s - %s - %d: %.2f$", id, title, category, director, length, cost);
+		return info;
+	}
 }
+
