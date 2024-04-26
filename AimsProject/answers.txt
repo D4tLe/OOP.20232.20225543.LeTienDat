@@ -1,0 +1,1 @@
+Since two constructor methods have the same parameter's data type, Java doesn't allow this situation.
