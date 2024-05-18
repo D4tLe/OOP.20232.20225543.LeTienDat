@@ -1,23 +1,54 @@
---------------LAB02-------------------
-Since two constructor methods have the same parameter's data type, Java doesn't allow this situation.
+7. Cart and Store are aggregated from Media
 
---------------LAB03-------------------
-1. Compare varargs and arrays
-- Similarities:
-+ Represent collections of elements of the same data type
-- Differences:
-	Array			Varargs
-+ Fixed size		+ Not fixed size
-+ Must create array	+ Directly pass parameters
 
-In this case I prefer varargs to array because it is flexible. I have't to create a array of DVDs before calling addDigitalVideoDisc.
+8. If the passing object is not an object of Media, the function "equals" will return false.
 
-2.Q: Is Java a pass by value or a pass by reference programming language?
-A: Java is considered a pass by value language. Java creates a copy of that reference and sends it to the method. This means any modifications within the method happen on the copied reference, not directly on the original object.
 
-Q: After the call of swap(jungleDVD, cinderellaDVD) why does the title of these two objects still remain?
-A: Because Java create a copy for each DVD and method swap only swap two copies.
+9. In this code snippet, an ArrayList called mediae is created to store objects of type Media.
 
-Q: After the call of changeTitle(jungleDVD, cinderellaDVD.getTitle()) why is the title of the JungleDVD changed?
+Next, objects are created and added to mediae.
 
-A: Because the copy of jungleDVD points to disc jungleDVD. Changing title means change original object's title, so the title of jungleDVD is changed
+After that, a for-each loop is used to iterate over each element in the mediae ArrayList. The loop variable element represents each object in the ArrayList in each iteration.
+
+Within the loop, element.toString() is called to convert the current object element to its string representation. This string representation is then printed to the console using System.out.println().
+
+
+10. - The class that should implement the Comparable interface is Media as it aggregates Cart and Store.
+
+- For example if we implement sort by title then by cost:
+public int compareTo(Media other) {
+    int titleComparison = this.getTitle().compareTo(other.getTitle());
+    
+    if (titleComparison == 0) {
+        return Double.compare(other.getCost(), this.getCost());
+    }
+    
+    return titleComparison;
+}
+
+- Using the Comparable interface approach, we can only have one natural ordering for the items. In this case, it would be either by title and then by cost, or by cost and then by title. We cannot have both ordering rules at the same time.
+
+- public class Dvd extends Media {
+    
+    @Override
+    public int compareTo(Media other) {
+        if (other instanceof Dvd) {
+            Dvd otherDvd = (Dvd) other;
+            
+            int titleComparison = this.getTitle().compareTo(otherDvd.getTitle());
+            
+            if (titleComparison == 0) {
+		int lengthComparison = Integer.compare(otherDvd.getLength(), this.getLength());
+                
+                if (lengthComparison == 0) {
+                    return Double.compare(this.getCost(), otherDvd.getCost());
+                }
+        
+                return lengthComparison;
+            }
+            
+            return titleComparison;
+        }
+        return super.compareTo(other);
+    }
+}
