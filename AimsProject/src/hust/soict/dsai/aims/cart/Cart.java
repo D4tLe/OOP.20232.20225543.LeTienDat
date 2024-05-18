@@ -1,97 +1,105 @@
 package hust.soict.dsai.aims.cart;
 
-import hust.soict.dsai.aims.disc.DigitalVideoDisc;
+import hust.soict.dsai.aims.media.DigitalVideoDisc;
+import hust.soict.dsai.aims.media.Media;
+import hust.soict.dsai.aims.media.Book;
+import hust.soict.dsai.aims.media.CompactDisc;
+
+import java.util.ArrayList;
 
 public class Cart {
-	public static final int MAX_NUMBERS_ORDERED = 20;
-	private DigitalVideoDisc itemsOrdered[] = new DigitalVideoDisc[MAX_NUMBERS_ORDERED];
-	private int qtyOrdered;
-			
-	public void addDigitalVideoDisc(DigitalVideoDisc disc) {
-		if (qtyOrdered >= 20) {
-			System.out.println("The cart is almost full");
-		} else {
-			itemsOrdered[qtyOrdered] = disc;
-			qtyOrdered += 1;
-			System.out.println("The disc has been added");
-		}
-	}
-	
-	public void addDigitalVideoDisc(DigitalVideoDisc[] dvdList) {
-		if (qtyOrdered + dvdList.length > 20) {
-			System.out.println("The cart is almost full");
-		} else {
-			for (DigitalVideoDisc disc : dvdList) {
-				itemsOrdered[qtyOrdered] = disc;
-				qtyOrdered += 1;
-			}
-			System.out.println("The disc list has been added");
-		}
-	}
 
-	public void addDigitalVideoDisc(DigitalVideoDisc disc1, DigitalVideoDisc disc2) {
-		if (qtyOrdered + 2 > 20) {
-			System.out.println("The cart is almost full");
-		} else {
-			addDigitalVideoDisc(disc1);
-			addDigitalVideoDisc(disc2);
-		}
-	}
+    public static final int MAX_NUMBERS_ORDERED = 20;
+    private ArrayList<Media> itemsOrdered = new ArrayList<>();
 
-	public void removeDigitalVideoDisc(DigitalVideoDisc disc) {
-		for (int i = 0; i < qtyOrdered; i++) {
-			if (disc.equals(itemsOrdered[i])) {
-				for (int j = i + 1; j < qtyOrdered; j++) {
-					itemsOrdered[j - 1] = itemsOrdered[j];
-				}
-				qtyOrdered = qtyOrdered - 1;
-				itemsOrdered[qtyOrdered] = null;
-				System.out.println("The disc has been remove");
-				return;
-			}
-		}
-		System.out.println("The disc was not found");
-	}
+    public static int getMaxNumbersOrdered() {
+        return MAX_NUMBERS_ORDERED;
+    }
 
-	public void searchByTitle(String title) {
-		System.out.println("Searching by title " + '"'+ title + '"' + ": ");
-		for (int i = 0; i < qtyOrdered; i++) {
-			if (itemsOrdered[i].isMatch(title)) {
-				System.out.println(itemsOrdered[i].toString() + "\n");
-				return;
-			}
-		}
-		
-		System.out.println("No match found\n");
-	}
+    public ArrayList<Media> getItemsOrdered() {
+        return this.itemsOrdered;
+    }
 
-	public void searchById(int id) {
-		System.out.println("Searching by id " + '"'+ id + '"' + ": ");
-		for (int i = 0; i < qtyOrdered; i++) {
-			if (itemsOrdered[i].isMatch(id)) {
-				System.out.println(itemsOrdered[i].toString() + "\n");
-				return;
-			}
-		}
-		
-		System.out.println("No match found\n");
-	}
-	
-	public float totalCost() {
-		float cost = 0.0f;
-		for (int i = 0; i < qtyOrdered; i++) {
-			cost += itemsOrdered[i].getCost();
-		}
-		
-		return cost;
-	}
+    public void addMedia(Media media) {
+        if (itemsOrdered.size() < MAX_NUMBERS_ORDERED) {
+            if (itemsOrdered.contains(media)) {
+                System.out.println("The media " + media.getTitle() + " is already in cart");
+            } else {
+                itemsOrdered.add(media);
+                System.out.println("Successfully added " + media.getTitle() + " to cart");
+            }
+        } else {
+            System.out.println("Cart is already full");
+        }
+    }
 
-	public void printCart() {
-		System.out.println("***********************CART***********************\nOrdered Items:");
-		for (int i = 0; i < qtyOrdered; i++) {
-			System.out.println(itemsOrdered[i].toString());
-		}
-		System.out.println("Total cost: " + totalCost());
-		System.out.println("***************************************************");
-	}
+    public void removeMedia(Media media) {
+        if (itemsOrdered.contains(media)) {
+            itemsOrdered.remove(media);
+            System.out.println("Successfully removed " + media.getTitle() + " from cart");
+        } else {
+            System.out.println("The media " + media.getTitle() + " is not in cart");
+        }
+    }
+
+    public float totalcost() {
+        float cost = 0;
+        for (Media element : itemsOrdered) {
+            cost += element.getCost();
+        }
+        return cost;
+    }
+
+    public void searchId(int id) {
+        for (Media media : itemsOrdered) {
+            if (media.getId() == id) {
+                if (media instanceof DigitalVideoDisc) {
+                    DigitalVideoDisc dvd = (DigitalVideoDisc) media;
+                    System.out.println(dvd.toString());
+                    return;
+                } else if (media instanceof CompactDisc) {
+                    CompactDisc cd = (CompactDisc) media;
+                    System.out.println(cd.toString());
+                    return;
+                } else if (media instanceof Book) {
+                    Book b = (Book) media;
+                    System.out.println(b.toString());
+                    return;
+                }
+            }
+        }
+        System.out.println("No match is found");
+    }
+
+    public void searchTitle(String title) {
+        for (Media media : itemsOrdered) {
+            if (media.getTitle().equals(title)) {
+                if (media instanceof DigitalVideoDisc) {
+                    DigitalVideoDisc dvd = (DigitalVideoDisc) media;
+                    System.out.println(dvd.toString());
+                    return;
+                } else if (media instanceof CompactDisc) {
+                    CompactDisc cd = (CompactDisc) media;
+                    System.out.println(cd.toString());
+                    return;
+                } else if (media instanceof Book) {
+                    Book b = (Book) media;
+                    System.out.println(b.toString());
+                    return;
+                }
+            }
+        }
+        System.out.println("No match is found");
+    }
+
+    public void print() {
+        System.out.println("*************CART*************");
+        System.out.println("Ordered Items:");
+        for (Media media : itemsOrdered) {
+            System.out.println(media.toString());
+        }
+        System.out.println("Total cost: " + this.totalcost());
+        System.out.println("******************************");
+    }
+
 }
